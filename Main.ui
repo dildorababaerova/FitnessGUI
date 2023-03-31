@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1081</width>
+    <height>905</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,7 +129,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Kaulan ympäryys</string>
+     <string>Kaula</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -142,7 +142,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Vyötaron ympäryys</string>
+     <string>Vyötärö</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -155,7 +155,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Lantion ympäryys</string>
+     <string>Lantio</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -275,10 +275,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Rasvaprosentti(USA)</string>
+     <string>Rasvaprosentti(US)</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="calculatepushButton">
+   <widget class="QPushButton" name="calculatePushButton">
     <property name="geometry">
      <rect>
       <x>570</x>
@@ -353,7 +353,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Rasvaprosentti (USA)</string>
+     <string>Rasvaprosentti (US)</string>
     </property>
    </widget>
   </widget>
@@ -362,7 +362,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1081</width>
      <height>22</height>
     </rect>
    </property>
