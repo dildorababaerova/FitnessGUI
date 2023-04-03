@@ -6,6 +6,8 @@ import sys
 from PyQt5 import QtCore # Core functionality of Qt
 from PyQt5 import QtWidgets # UI elements functionality
 from PyQt5.uic import loadUi
+import kuntoilija
+import timetools 
 
 # Class for the main window
 class MainWindow(QtWidgets.QMainWindow):
@@ -17,15 +19,60 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
 
         # Load the UI file
-        self.main = loadUi('main.ui', self)
+        loadUi('main.ui', self)
 
         # Define UI Controls ie buttons and input fields
+        self.nameLE = self.nameLineEdit
+        self.birthDateE = self.birthDateEdit
+        self.genderCB = self.genderComboBox
+        self.weighingDateE = self.weighingDateEdit
+        
+        self.weighingDateE.setDate(QtCore.QDate.currentDate()) 
+        self.heightSB = self.heightSpinBox
+        self.weightSB = self.weightSpinBox
+        self.neckSB = self.neckSpinBox
+        self.waistSpinB = self.waistSpinBox
+        self.hipSB = self.hipSpinBox         
+        
+           
         self.calculatePB = self.calculatePushButton
         self.calculatePB.clicked.connect(self.calculateAll)
+        
+        self.savePB = self.savePushButton
+        self.savePB.clicked.connect(self.saveData)
+        
 
     # Define slots ie methods
+    
+    # Calculates BMI, Finnish and Us fat percentages and updates corresponding labels
     def calculateAll(self):
-        self.bmiLabel.setValue('100')
+        name = self.nameLE.text()
+        height = self.heightSB.value() #Spinbox value as an integer
+        weight = self.weightSB.value()
+        
+        birthday = self.birthDateE.date().toString(format=QtCore.Qt.ISODate)
+        
+        gendertext = self.genderCB.currentText()
+        if gendertext == 'Mies':
+            gender = 1
+            
+        else:
+            gender = 0
+            
+        
+        dateOfweighing = self.weighingDateE.date().toString(format=QtCore.Qt.ISODate)
+        
+        age = timetools.datediff2(birthday, dateOfweighing, 'year')
+        # Create an athlete from Kuntoilija class 
+        athlete = kuntoilija.Kuntoilija(name, height, weight, age, gender, dateOfweighing)
+        bmi = athlete.bmi()
+        
+        
+        self.bmiLabel.setText(str(bmi))
+        
+        #Save data to disk
+    def saveData(self):
+            pass
 
 if __name__ == "__main__":
     # Create the application
@@ -33,7 +80,7 @@ if __name__ == "__main__":
 
     # Create the Main Window object from MainWindow class and show it on the screen
     appWindow = MainWindow()
-    appWindow.main.show()
+    appWindow.show()
     sys.exit(app.exec())
 
     # Create the mainwindow (and show it)
