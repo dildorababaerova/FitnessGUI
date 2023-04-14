@@ -31,10 +31,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.heightSB = self.heightSpinBox
         self.weightSB = self.weightSpinBox
         self.neckSB = self.neckSpinBox
-        self.waistSpinB = self.waistSpinBox
+        self.waistSB = self.waistSpinBox
         self.hipSB = self.hipSpinBox         
         
-           
+         # TODO: Disable Calculate button until values have been edited   
         self.calculatePB = self.calculatePushButton
         self.calculatePB.clicked.connect(self.calculateAll)
         
