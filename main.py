@@ -51,7 +51,7 @@ class MainWindow(QW.QMainWindow):
         # TODO: Disable Calculate button until values have been edited
         # self.calculatePB = self.calculatePushButton
         self.calculatePB = self.findChild(QW.QPushButton, 'calculatePushButton')
-        self.calculatePB.clicked.connect(self.saveData)
+        self.calculatePB.clicked.connect(self.calculateAll)
         self.calculatePB.setEnabled(False)
 
         # TODO: Disable Save button until new values are calculated
@@ -70,7 +70,7 @@ class MainWindow(QW.QMainWindow):
         except Exception as e:
             data = (1, 'Error', str(e), self.dataList)
         
-        self.dataList = data
+        
     # Define slots ie methods
 
     
@@ -141,7 +141,7 @@ class MainWindow(QW.QMainWindow):
         
 
         fiFatPercentage = athlete.fi_rasva
-        usaFatPersentage = athlete.usa_rasva
+        usaFatPercentage = athlete.usa_rasva
 
         if gender == 1:
             usaFatPercentage = athlete.usa_rasvaprosentti_mies(height, waist, neck)
@@ -161,7 +161,8 @@ class MainWindow(QW.QMainWindow):
                 'paino': athlete.paino, 
                 'ika': athlete.ika, 'sukupuoli': athlete.sukupuoli,
                 'pvm': athlete.punnitus_paiva,
-                'bmi': athlete.bmi, 'rasvaprosenttiFi': athlete.fi_rasva, 'rasvaprosenttiUs': athlete.usa_rasva}
+                'bmi': athlete.bmi, 'rasvaprosenttiFi': athlete.fi_rasva,
+                'rasvaprosenttiUs': athlete.usa_rasva}
         return athlete_data_row
     
     #Saves data to disk
