@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>804</width>
     <height>600</height>
    </rect>
   </property>
@@ -167,10 +167,10 @@
      <number>200</number>
     </property>
    </widget>
-   <widget class="QSpinBox" name="hipSpinBox">
+   <widget class="QSpinBox" name="hipsSpinBox">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>240</x>
       <y>160</y>
       <width>42</width>
       <height>22</height>
@@ -428,7 +428,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>804</width>
      <height>21</height>
     </rect>
    </property>
