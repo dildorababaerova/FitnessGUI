@@ -7,7 +7,7 @@ from PyQt5 import QtCore # Core functionality of Qt
 from PyQt5 import QtWidgets as QW # UI elements functionality
 from PyQt5.uic import loadUi # Reads the UI file
 import kuntoilija # Home brew module for athlete objects
-import timetools # DIY module for date and time calculations
+import timetools as timetools # DIY module for date and time calculations
 import athleteFile #Home made module 
 # TODO: Import some library able to plot trends and make it as widget in the UI
 
