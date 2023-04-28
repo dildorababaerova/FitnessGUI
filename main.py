@@ -168,7 +168,7 @@ class MainWindow(QW.QMainWindow):
     #Saves data to disk
     def saveData(self):
         self.dataList.append(self.dataRow)
-        jsonfile2 = athleteFile.ProcessJsonFile
+        jsonfile2 = athleteFile.ProcessJsonFile()
         status = jsonfile2.saveData('athleteData.json', self.dataList )
         self.nameLE.clear()
         zeroDate = QtCore.QDate(1900, 1, 1)

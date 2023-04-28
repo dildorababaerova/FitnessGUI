@@ -1,0 +1,13 @@
+[
+    {
+        "nimi": "xfgfg",
+        "pituus": 180.0,
+        "paino": 80.0,
+        "ika": 123.33698630136986,
+        "sukupuoli": 1,
+        "pvm": "2023-04-13",
+        "bmi": 24.7,
+        "rasvaprosenttiFi": 41.8,
+        "rasvaprosenttiUs": 14.526477159172863
+    }
+]
