@@ -121,7 +121,7 @@ def dateTimeDiff2(start, end, unit):
     seconds = difference.total_seconds()
     value = round((seconds / divider), 1)
     return value
-def sortWeekdays(weekday):
+def finnishWeekdayOrder(weekday):
     weekdayNumber = {'maanantai': 1, 'tiistai': 2, 'keskiviikko': 3,
      'torstai': 4, 'perjantai': 5, 'lauantai': 6, 'sunnuntai': 7}
     try:
