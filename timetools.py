@@ -121,6 +121,15 @@ def dateTimeDiff2(start, end, unit):
     seconds = difference.total_seconds()
     value = round((seconds / divider), 1)
     return value
+def sortWeekdays(weekday):
+    weekdayNumber = {'maanantai': 1, 'tiistai': 2, 'keskiviikko': 3,
+     'torstai': 4, 'perjantai': 5, 'lauantai': 6, 'sunnuntai': 7}
+    try:
+        value = f'{weekday} on viikon {weekdayNumber[weekday]}. päivä' 
+    except Exception as error:
+        value = f'{weekday} ei ole viikonpäivä, tarkista syötteesi'
+    
+    return value
 
 if __name__ == "__main__":
     
