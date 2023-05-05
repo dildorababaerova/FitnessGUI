@@ -48,13 +48,25 @@ class MainWindow(QW.QMainWindow):
         self.hipsSB.setEnabled(False)
         self.hipsSB.valueChanged.connect(self.activateCalculatePB)
         
-        # TODO: Disable Calculate button until values have been edited
+        # Create a status bar for showing informational messages
+        
+        self.statusBar = QW.QStatusBar()
+        self.setStatusBar(self.statusBar)
+        self.statusBar.show()
+        
+        
+        
         # self.calculatePB = self.calculatePushButton
         self.calculatePB = self.findChild(QW.QPushButton, 'calculatePushButton')
         self.calculatePB.clicked.connect(self.calculateAll)
         self.calculatePB.setEnabled(False)
+        
+        #Temporary push button for inserting test values into controls
+        self.testPB = self.testUiPushButton
+        self.testPB.clicked.connect(self.insertTestValues)
+        
 
-        # TODO: Disable Save button until new values are calculated
+        
         # self.savePB = self.savePushButton
         self.savePB = self.findChild(QW.QPushButton, 'savePushButton')
         self.savePB.clicked.connect(self.saveData)
@@ -72,6 +84,70 @@ class MainWindow(QW.QMainWindow):
         
         
     # Define slots ie methods
+    
+    # Create a alerting method 
+    def alert(self, windowTitle, message, detailedMessage):
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.Critical)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
+        
+    def warn(self, windowTitle, message, detailedMessage):
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.Warning)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
+        
+    def inform(self, windowTitle, message, detailedMessage):
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.Information)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
+        
+    def noIcon(self, windowTitle, message, detailedMessage):
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.NoIcon)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
+        
+    def question(self, windowTitle, message, detailedMessage):
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.Question)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
+        
+    def showMessageBox(self, windowTitle, message, detailedMessage, icon='Information'):
+        """Creates a message box for various types of messages
+
+        Args:
+            windowTitle (str): Header for the message window
+            message (str): Message to be shown
+            detailedMessage (str): A message that can be shown by pressing details button
+            icon (str, optional): Allowed values: NoIcon, Information,
+                                Question, Warning and Critical. Defaults to 'Information'.
+        """
+        
+        iconTypes = {'Information': QW.QMessageBox.Information,
+                    'NoIcon': QW.QMessageBox.NoIcon,
+                    'Question': QW.QMessageBox.Question,
+                    'Warning': QW.QMessageBox.Warning,
+                    'Critical': QW.QMessageBox.Critical}        
+        msgBox = QW.QMessageBox()
+        msgBox.setIcon(QW.QMessageBox.Information)
+        msgBox.setWindowTitle(windowTitle)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detailedMessage)
+        msgBox.exec()
 
     
     def activateCalculatePB(self):
@@ -104,6 +180,17 @@ class MainWindow(QW.QMainWindow):
                 self.calculatePB.setEnabled(False)
         else:
             self.hipsSB.setEnabled(False)
+            
+    def insertTestValues(self):
+        self.nameLe.setText('Teppo testi')
+        testBirthDay = QtCore.QDate(199, 12, 31)
+        self.birthDateE.setDate(testBirthDay)
+        self.genderCB.setCurrentText('Mies')
+        self.name = self.nameLE.text()
+        self.height = self.heightSB.value() # Spinbox value as an integer
+        self.weight = self.weightSB.value()
+        self.calculatePB.setEnabled(False)
+        self.savePB.setEnabled(True)
 
 
     # Calculates BMI, Finnish and US fat percentages and updates corresponding labels
@@ -131,6 +218,12 @@ class MainWindow(QW.QMainWindow):
         # Calculate time difference using our home made tools
         age = timetools.datediff2(birthday, dateOfWeighing, 'year')
         neck = self.neckSB.value()
+        if neck < 21:
+            #self.alert('Tarkista kaulan koko', 'kaulan ympärys liian pieni', 'Kaulan koko voi olla välillä 21_60 cm')
+            self.showMessageBox('Tarkista kaulan koko', 
+                                'kaulan ympärys virheellinen',
+                                'Sallitut arvot21_60 cm',
+                                'Warning')
         waist = self.waistSB.value()
         hips = self.hipsSB.value()
 
@@ -167,24 +260,38 @@ class MainWindow(QW.QMainWindow):
     
     #Saves data to disk
     def saveData(self):
-        self.dataList.append(self.dataRow)
-        jsonfile2 = athleteFile.ProcessJsonFile()
-        status = jsonfile2.saveData('athleteData.json', self.dataList )
-        self.nameLE.clear()
-        zeroDate = QtCore.QDate(1900, 1, 1)
-        self.birthDateE.setDate(zeroDate)
-        self.heightSB.setValue(100)
-        self.weightSB.setValue(20)
-        self.neckSB.setValue(10)
-        self.waistSB.setValue(30)
-        self.hipsSB.setValue(50)
-        self.savePB.setEnabled(False)
         
+        # Add current values to a list
+        self.dataList.append(self.dataRow)
+        
+        # Save list to ajson file
+        jsonfile2 = athleteFile.ProcessJsonFile()
+        status = jsonfile2.saveData('athleteData.json', self.dataList)
+        
+        #Show message about status of saving on statusbar
+        self.statusBar.showMessage(status[1], 4000)
+        
+        # TODO:CalL error message box if error code is not 0
+        if status[0] != 0:
+            self.alert(status[1], status[2])
+        else:     
+            #Set all inputs and to the  default values
+            self.nameLE.clear()
+            zeroDate = QtCore.QDate(1900, 1, 1)
+            self.birthDateE.setDate(zeroDate)
+            self.heightSB.setValue(100)
+            self.weightSB.setValue(20)
+            self.neckSB.setValue(10)
+            self.waistSB.setValue(30)
+            self.hipsSB.setValue(50)
+            self.savePB.setEnabled(False)
+            
         
 
 if __name__ == "__main__":
     # Create the application
     app = QW.QApplication(sys.argv)
+    app.setStyle('Fusion') # Use fusion style
 
     # Create the Main Window object from MainWindow class and show it on the screen
     appWindow = MainWindow()
