@@ -422,7 +422,7 @@
      <string>Sukupuoli</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="testUiPushButton">
     <property name="geometry">
      <rect>
       <x>470</x>
@@ -480,6 +480,7 @@
     <property name="title">
      <string>Ohjeet</string>
     </property>
+    <addaction name="actionOhje"/>
    </widget>
    <addaction name="menuTiedosto"/>
    <addaction name="menuMuokkaa"/>
@@ -554,6 +555,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionOhje">
+   <property name="text">
+    <string>Ohje</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>

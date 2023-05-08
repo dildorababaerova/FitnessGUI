@@ -8,7 +8,8 @@ from PyQt5 import QtWidgets as QW # UI elements functionality
 from PyQt5.uic import loadUi # Reads the UI file
 import kuntoilija # Home brew module for athlete objects
 import timetools as timetools # DIY module for date and time calculations
-import athleteFile #Home made module 
+import athleteFile #Home made module
+import ohje 
 # TODO: Import some library able to plot trends and make it as widget in the UI
 
 # Class for the main window
@@ -67,7 +68,7 @@ class MainWindow(QW.QMainWindow):
         
 
         
-        # self.savePB = self.savePushButton
+        # A push button for saving user data
         self.savePB = self.findChild(QW.QPushButton, 'savePushButton')
         self.savePB.clicked.connect(self.saveData)
         self.savePB.setEnabled(False)
@@ -81,7 +82,11 @@ class MainWindow(QW.QMainWindow):
             self.dataList = data[3] 
         except Exception as e:
             data = (1, 'Error', str(e), self.dataList)
-        
+            
+            
+    #MENU ACTIONS
+        self.actionPalauta_oletukset.triggered.connect(self.restoreDefaults)
+        self.actionOhje.triggered.connect(self.openHelpDialog)
         
     # Define slots ie methods
     
@@ -182,15 +187,15 @@ class MainWindow(QW.QMainWindow):
             self.hipsSB.setEnabled(False)
             
     def insertTestValues(self):
-        self.nameLe.setText('Teppo testi')
-        testBirthDay = QtCore.QDate(199, 12, 31)
+         # Set test values to all controls
+        self.nameLE.setText('Teppo Testi')
+        testBirthDay = QtCore.QDate(1999, 12, 31)
         self.birthDateE.setDate(testBirthDay)
         self.genderCB.setCurrentText('Mies')
-        self.name = self.nameLE.text()
-        self.height = self.heightSB.value() # Spinbox value as an integer
-        self.weight = self.weightSB.value()
-        self.calculatePB.setEnabled(False)
-        self.savePB.setEnabled(True)
+        self.heightSB.setValue(171)
+        self.weightSB.setValue(75)
+        self.neckSB.setValue(30)
+        self.waistSB.setValue(90)
 
 
     # Calculates BMI, Finnish and US fat percentages and updates corresponding labels
@@ -276,16 +281,23 @@ class MainWindow(QW.QMainWindow):
             self.alert(status[1], status[2])
         else:     
             #Set all inputs and to the  default values
-            self.nameLE.clear()
-            zeroDate = QtCore.QDate(1900, 1, 1)
-            self.birthDateE.setDate(zeroDate)
-            self.heightSB.setValue(100)
-            self.weightSB.setValue(20)
-            self.neckSB.setValue(10)
-            self.waistSB.setValue(30)
-            self.hipsSB.setValue(50)
-            self.savePB.setEnabled(False)
+            self.restoreDefaults()
             
+    def restoreDefaults(self):
+        self.nameLE.clear()
+        zeroDate = QtCore.QDate(1900, 1, 1)
+        self.birthDateE.setDate(zeroDate)
+        self.heightSB.setValue(100)
+        self.weightSB.setValue(20)
+        self.neckSB.setValue(10)
+        self.waistSB.setValue(30)
+        self.hipsSB.setValue(50)
+        self.savePB.setEnabled(False)
+        
+    def openHelpDialog(self):
+        openHelp = ohje.OpenHelp()
+        openHelp.exec()
+                        
         
 
 if __name__ == "__main__":
